@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  dlenv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: "test"
+        USERID: "1001"
+        GROUPNAME: "test"
+        GROUPID: "1001"
+    shm_size: '96gb'
+    tty: true
+    ports:
+      - "8888:8890"
+    stdin_open: true
+    user: 1001:1001
+    volumes:
+      - $PWD/work:/app/work
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/group:/etc/group:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '16'
+    runtime: nvidia
+    command: /bin/bash
